@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>In nhanh – Photo Lộc Trịnh</title>
+<meta name="description" content="Chọn kiểu in tại máy, gửi mã cho Zalo OA Photo Lộc Trịnh">
+<style>
+  :root{--bg:#f3f6fb;--card:#fff;--ink:#16202c;--mute:#5d6b7a;--brand:#0068ff;--brand2:#e8f0ff;--ok:#0a7a2f;--warn:#c62828;--line:#dbe3ee}
+  @media (prefers-color-scheme:dark){:root{--bg:#0f1520;--card:#18212e;--ink:#e8eef6;--mute:#9aa8b8;--brand:#3d8bff;--brand2:#1c2b44;--ok:#4cc277;--warn:#ff6b6b;--line:#2a3646}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+  main{max-width:480px;margin:0 auto;padding:16px 16px 40px}
+  header{background:var(--brand);color:#fff;border-radius:18px;padding:18px 16px;text-align:center}
+  header .shop{font-size:15px;opacity:.9}
+  header h1{margin:4px 0 0;font-size:44px;line-height:1.1;letter-spacing:.5px}
+  header .model{font-size:14px;opacity:.85;margin-top:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px}
+  .q{font-weight:700;margin:0 0 12px;font-size:18px}
+  .btns{display:grid;gap:12px}
+  button,.btn{display:block;width:100%;border:0;border-radius:14px;padding:18px 14px;font:inherit;font-size:21px;font-weight:700;cursor:pointer;text-align:center;text-decoration:none}
+  .pri{background:var(--brand);color:#fff}
+  .sec{background:var(--brand2);color:var(--brand)}
+  button small{display:block;font-size:14px;font-weight:500;opacity:.85;margin-top:2px}
+  .code{font-size:46px;font-weight:800;color:var(--warn);text-align:center;letter-spacing:1px;border:3px solid var(--warn);border-radius:14px;padding:6px 0;margin:6px 0 10px;user-select:all}
+  ol{margin:0;padding-left:22px} ol li{margin:6px 0}
+  .ok{color:var(--ok);font-weight:700;text-align:center;margin:0 0 6px}
+  .mute{color:var(--mute);font-size:14px}
+  .grid4{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="shop">Photo Lộc Trịnh · In nhanh tại máy</div>
+    <h1 id="ten">CHỌN MÁY</h1>
+    <div class="model" id="model"></div>
+  </header>
+
+  <!-- Chua co ?may= : chon may -->
+  <section class="card" id="chonMay" hidden>
+    <p class="q">Anh/chị đang đứng ở máy nào?</p>
+    <div class="grid4">
+      <a class="btn sec" href="?may=1">Máy 1</a>
+      <a class="btn sec" href="?may=2">Máy 2</a>
+      <a class="btn sec" href="?may=3">Máy 3</a>
+      <a class="btn sec" href="?may=mau">Máy màu</a>
+    </div>
+  </section>
+
+  <!-- Buoc 1: chon kieu in -->
+  <section class="card" id="chonKieu" hidden>
+    <p class="q">Chọn kiểu in:</p>
+    <div class="btns" id="nut"></div>
+    <p class="mute" style="margin:12px 0 0">Bấm xong, Zalo sẽ mở chat <b>Photo Lộc Trịnh</b>.</p>
+  </section>
+
+  <!-- Buoc 2: da chep ma -->
+  <section class="card" id="daChep" hidden>
+    <p class="ok" id="trangThai">✅ Đã chép mã</p>
+    <div class="code" id="ma">#m1</div>
+    <ol>
+      <li>Trong chat Zalo: <b>giữ vào ô "Tin nhắn" → Dán → Gửi</b>.<br><span class="mute" id="goTay">Không dán được thì gõ đúng mã trên (chữ thường, viết liền).</span></li>
+      <li><b>Chuyển tiếp file</b> cần in vào chat Photo Lộc Trịnh.</li>
+      <li>Nhiều bản? Nhắn thêm, ví dụ: <b>3 bản</b>.</li>
+    </ol>
+    <a class="btn pri" id="moZalo" style="margin-top:14px" href="#">Mở Zalo Photo Lộc Trịnh</a>
+    <button class="sec" id="chonLai" style="margin-top:10px;font-size:17px">← Chọn lại kiểu in</button>
+  </section>
+
+  <p class="mute" style="text-align:center;margin-top:18px">Mở cửa 7h00–20h00 · Chợ Cống, phường Chương Mỹ, Hà Nội</p>
+</main>
+
+<script>
+(function () {
+  // OA "Photo Loc Trinh". Ma phai trung DUNG Y truy van tu dong trong OA Manager (chu thuong, viet lien).
+  var OA_URL = "https://zalo.me/2036290979928416515";
+  var MAY = {
+    "1":   { ten: "MÁY 1",   model: "Ricoh MP7502", nut: [["In 1 mặt", "Đen trắng", "#m1"], ["In 2 mặt", "Đen trắng", "#m1d"]] },
+    "2":   { ten: "MÁY 2",   model: "Ricoh MP8001", nut: [["In 1 mặt", "Đen trắng", "#m2"], ["In 2 mặt", "Đen trắng", "#m2d"]] },
+    "3":   { ten: "MÁY 3",   model: "Ricoh MP6002", nut: [["In 1 mặt", "Đen trắng", "#m3"], ["In 2 mặt", "Đen trắng", "#m3d"]] },
+    "mau": { ten: "MÁY MÀU", model: "In màu · 1 mặt", nut: [["In màu", "1 mặt", "#mau"]] }
+  };
+  var $ = function (id) { return document.getElementById(id); };
+  var key = (new URLSearchParams(location.search).get("may") || "").toLowerCase();
+  var may = MAY[key];
+  $("moZalo").href = OA_URL;
+
+  if (!may) { $("chonMay").hidden = false; return; }
+  $("ten").textContent = may.ten;
+  $("model").textContent = may.model;
+  document.title = may.ten + " – In nhanh Photo Lộc Trịnh";
+
+  may.nut.forEach(function (n, i) {
+    var b = document.createElement("button");
+    b.className = i === 0 ? "pri" : "sec";
+    b.innerHTML = n[0] + "<small>" + n[1] + "</small>";
+    b.onclick = function () { chon(n[2]); };
+    $("nut").appendChild(b);
+  });
+  $("chonKieu").hidden = false;
+
+  function chepCu(text) {
+    // du phong cho trinh duyet trong app (Zalo, Facebook...) khong co navigator.clipboard
+    var t = document.createElement("textarea");
+    t.value = text; t.setAttribute("readonly", ""); t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t); t.select(); t.setSelectionRange(0, text.length);
+    var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(t); return ok;
+  }
+
+  function chon(ma) {
+    $("ma").textContent = ma;
+    $("chonKieu").hidden = true; $("daChep").hidden = false;
+    var xong = function (ok) {
+      $("trangThai").textContent = ok ? "✅ Đã chép mã — giờ chỉ cần Dán" : "Hãy gõ đúng mã này trong chat:";
+      $("goTay").hidden = !ok;
+      setTimeout(function () { location.href = OA_URL; }, ok ? 1200 : 2500);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(ma).then(function () { xong(true); }, function () { xong(chepCu(ma)); });
+    } else { xong(chepCu(ma)); }
+  }
+
+  $("chonLai").onclick = function () { $("daChep").hidden = true; $("chonKieu").hidden = false; };
+})();
+</script>
+</body>
+</html>
