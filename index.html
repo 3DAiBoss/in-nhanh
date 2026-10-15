@@ -60,6 +60,7 @@
   <section class="card" id="daChep" hidden>
     <p class="ok" id="trangThai">✅ Đã chép mã</p>
     <div class="code" id="ma">#m1</div>
+    <p class="mute" id="chiaSeHD" hidden style="margin:0 0 8px">Bảng <b>Chia sẻ</b> đã mở: chọn <b>Zalo</b> → chọn <b>Photo Lộc Trịnh</b> → <b>Gửi</b>. Không thấy bảng? Làm theo các bước dưới.</p>
     <ol>
       <li>Trong chat Zalo: <b>giữ vào ô "Tin nhắn" → Dán → Gửi</b>.<br><span class="mute" id="goTay">Không dán được thì gõ đúng mã trên (chữ thường, viết liền).</span></li>
       <li><b>Chuyển tiếp file</b> cần in vào chat Photo Lộc Trịnh.</li>
@@ -113,6 +114,21 @@
   function chon(ma) {
     $("ma").textContent = ma;
     $("chonKieu").hidden = true; $("daChep").hidden = false;
+    // Cach 2: bang Chia se cua dien thoai -> khach chon Zalo -> Photo Loc Trinh -> Gui (khong phai Dan).
+    // Chi gui DUNG ma (khong title/url) de truy van OA khop. Trinh duyet khong co Web Share -> cach Dan ben duoi.
+    if (navigator.share && !/\bZalo\b/i.test(navigator.userAgent)) {
+      chepCu(ma); // du phong: neu khach huy chia se van con ma trong clipboard
+      $("trangThai").textContent = "Chọn Zalo → Photo Lộc Trịnh → Gửi";
+      $("goTay").hidden = true;
+      $("chiaSeHD").hidden = false;
+      navigator.share({ text: ma }).then(function () {
+        $("trangThai").textContent = "✅ Đã gửi mã. Giờ chuyển tiếp file vào Photo Lộc Trịnh";
+      }, function () {
+        $("trangThai").textContent = "Chưa gửi được — bấm nút dưới, Zalo mở ra thì Dán mã";
+        $("goTay").hidden = false;
+      });
+      return;
+    }
     var xong = function (ok) {
       $("trangThai").textContent = ok ? "✅ Đã chép mã — giờ chỉ cần Dán" : "Hãy gõ đúng mã này trong chat:";
       $("goTay").hidden = !ok;
